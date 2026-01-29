@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STARTLABX - Complete Platform</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #f5576c;
+            --accent: #4facfe;
+            --success: #43e97b;
+            --warning: #ffa726;
+            --error: #ff6b6b;
+            --bg-dark: #0f0f23;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: white;
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Landing Page */
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(31, 38, 135, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* AI Tools Grid */
+        .ai-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .ai-tool-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ai-tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.25rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Sections */
+        section {
+            display: none;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Landing Page -->
+    <section id="landing" class="active">
+        <div class="hero fade-in">
+            <div class="float">
+                <span class="material-icons"
+                    style="font-size: 120px; color: white; margin-bottom: 2rem;">rocket_launch</span>
+            </div>
+            <h1 class="slide-up">STARTLABX</h1>
+            <p class="slide-up" style="animation-delay: 0.2s;">Build Your Startup With Equity, Not Cash</p>
+            <div class="hero-buttons slide-up" style="animation-delay: 0.4s;">
+                <button class="btn btn-primary" onclick="showSection('dashboard')">
+                    <span class="material-icons">dashboard</span>
+                    View Dashboard
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('features')">
+                    <span class="material-icons">explore</span>
+                    Explore Features
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Page -->
+    <section id="features">
+        <nav class="nav">
+            <div class="nav-content">
+                <div class="nav-logo">STARTLABX</div>
+                <button class="btn btn-primary" onclick="showSection('landing')">
+                    <span class="material-icons">home</span>
+                    Home
+                </button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="page-header fade-in">
+                <h1>Platform Features</h1>
+                <p>Everything you need to build and scale your startup</p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card slide-up">
+                    <div class="feature-icon">💼</div>
+                    <h3>Equity Management</h3>
+                    <p>Complete cap table, vesting schedules, and equity calculators for founders and team members</p>
+                </div>
+
+                <div class="feature-card slide-up" style="animation-delay: 0.1s;">
+                    <div class="feature-icon">💬</div>
+                    <h3>Real-Time Communication</h3>
+                    <p>Direct messages, team channels, and collaboration tools built for distributed teams</p>
+                </div>
+
+                <div class="feature-card slide-up" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Tools</h3>
+                    <p>9 intelligent features including copilot, idea validator, pitch deck generator, and more</p>
+                </div>
+
+                <div class="feature-card slide-up" style="animation-delay: 0.3s;">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Advanced Marketplace</h3>
+                    <p>Find projects, showcase portfolios, and connect with the right opportunities</p>
+                </div>
+
+                <div class="feature-card slide-up" style="animation-delay: 0.4s;">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Professional Network</h3>
+                    <p>Build connections, share updates, and grow your startup community</p>
+                </div>
+
+                <div class="feature-card slide-up" style="animation-delay: 0.5s;">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Enterprise Security</h3>
+                    <p>Bank-level security with JWT authentication, encryption, and data protection</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 4rem;">
+                <button class="btn btn-primary" onclick="showSection('dashboard')">
+                    <span class="material-icons">dashboard</span>
+                    Go to Dashboard
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard -->
+    <section id="dashboard">
+        <nav class="nav">
+            <div class="nav-content">
+                <div class="nav-logo">STARTLABX</div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" onclick="showSection('ai-tools')">
+                        <span class="material-icons">psychology</span>
+                        AI Tools
+                    </button>
+                    <button class="btn btn-secondary" onclick="showSection('landing')">
+                        <span class="material-icons">home</span>
+                        Home
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="page-header fade-in">
+                <h1>Welcome Back! 👋</h1>
+                <p>Here's what's happening with your startups today</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card slide-up">
+                    <span class="material-icons" style="font-size: 3rem; color: var(--primary);">business</span>
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Active Projects</div>
+                </div>
+
+                <div class="stat-card slide-up" style="animation-delay: 0.1s;">
+                    <span class="material-icons" style="font-size: 3rem; color: var(--accent);">people</span>
+                    <div class="stat-number">24</div>
+                    <div class="stat-label">Connections</div>
+                </div>
+
+                <div class="stat-card slide-up" style="animation-delay: 0.2s;">
+                    <span class="material-icons" style="font-size: 3rem; color: var(--success);">stars</span>
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">AI Matches</div>
+                </div>
+
+                <div class="stat-card slide-up" style="animation-delay: 0.3s;">
+                    <span class="material-icons" style="font-size: 3rem; color: var(--secondary);">message</span>
+                    <div class="stat-number">42</div>
+                    <div class="stat-label">Messages</div>
+                </div>
+            </div>
+
+            <div class="glass-card fade-in">
+                <h2 style="margin-bottom: 2rem; font-family: 'Space Grotesk', sans-serif;">Quick Actions</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <button class="btn btn-primary" onclick="showSection('ai-tools')">
+                        <span class="material-icons">psychology</span>
+                        AI Copilot
+                    </button>
+                    <button class="btn btn-secondary">
+                        <span class="material-icons">search</span>
+                        Find Talent
+                    </button>
+                    <button class="btn btn-secondary">
+                        <span class="material-icons">post_add</span>
+                        Create Post
+                    </button>
+                    <button class="btn btn-secondary">
+                        <span class="material-icons">analytics</span>
+                        Analytics
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Tools -->
+    <section id="ai-tools">
+        <nav class="nav">
+            <div class="nav-content">
+                <div class="nav-logo">STARTLABX</div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" onclick="showSection('dashboard')">
+                        <span class="material-icons">dashboard</span>
+                        Dashboard
+                    </button>
+                    <button class="btn btn-secondary" onclick="showSection('landing')">
+                        <span class="material-icons">home</span>
+                        Home
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="page-header fade-in">
+                <h1>🤖 AI-Powered Tools</h1>
+                <p>Intelligent features to accelerate your startup journey</p>
+            </div>
+
+            <div class="ai-tools-grid">
+                <div class="ai-tool-card slide-up">
+                    <div class="ai-tool-icon">🤖</div>
+                    <h3>AI Copilot</h3>
+                    <p>Get instant answers and guidance for your startup questions</p>
+                </div>
+
+                <div class="ai-tool-card slide-up" style="animation-delay: 0.1s;">
+                    <div class="ai-tool-icon">💡</div>
+                    <h3>Idea Validator</h3>
+                    <p>Validate your business idea with AI-powered market analysis</p>
+                </div>
+
+                <div class="ai-tool-card slide-up" style="animation-delay: 0.2s;">
+                    <div class="ai-tool-icon">📊</div>
+                    <h3>Pitch Deck Generator</h3>
+                    <p>Create professional 12-slide pitch decks in minutes</p>
+                </div>
+
+                <div class="ai-tool-card slide-up" style="animation-delay: 0.3s;">
+                    <div class="ai-tool-icon">📋</div>
+                    <h3>MVP Planner</h3>
+                    <p>Get a detailed 4-phase roadmap for building your MVP</p>
+                </div>
+
+                <div class="ai-tool-card slide-up" style="animation-delay: 0.4s;">
+                    <div class="ai-tool-icon">📄</div>
+                    <h3>Contract Generator</h3>
+                    <p>Generate legal contracts and agreements automatically</p>
+                </div>
+
+                <div class="ai-tool-card slide-up" style="animation-delay: 0.5s;">
+                    <div class="ai-tool-icon">👥</div>
+                    <h3>Smart Matching</h3>
+                    <p>Find the perfect team members based on skills and experience</p>
+                </div>
+
+                <div class="ai-tool-card slide-up" style="animation-delay: 0.6s;">
+                    <div class="ai-tool-icon">💼</div>
+                    <h3>Business Model</h3>
+                    <p>Design and optimize your revenue strategy with AI</p>
+                </div>
+
+                <div class="ai-tool-card slide-up" style="animation-delay: 0.7s;">
+                    <div class="ai-tool-icon">🔍</div>
+                    <h3>Market Research</h3>
+                    <p>Get comprehensive market analysis and competitor insights</p>
+                </div>
+
+                <div class="ai-tool-card slide-up" style="animation-delay: 0.8s;">
+                    <div class="ai-tool-icon">🚀</div>
+                    <h3>Growth Strategy</h3>
+                    <p>Receive personalized growth recommendations and tactics</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Add some interactivity
+        console.log('🚀 STARTLABX Platform Loaded!');
+        console.log('✅ All 5 Phases Complete:');
+        console.log('  Phase 1: Authentication & Core Platform');
+        console.log('  Phase 2: Equity Management (10 endpoints)');
+        console.log('  Phase 3: Real-Time Communication (8 endpoints)');
+        console.log('  Phase 4: Advanced Marketplace (9 endpoints)');
+        console.log('  Phase 5: Professional Networking & AI (9 tools)');
+    </script>
+</body>
+
+</html>

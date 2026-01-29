@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STARTLABX - Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .test-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        pre {
+            background: rgba(0,0,0,0.3);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 STARTLABX - Connection Test</h1>
+    
+    <div class="test-box">
+        <h2>Backend Connection Test</h2>
+        <button onclick="testBackend()">Test Backend</button>
+        <button onclick="testHealth()">Test Health</button>
+        <div id="backend-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>Frontend App Test</h2>
+        <button onclick="testApp()">Test App Initialization</button>
+        <div id="app-result"></div>
+    </div>
+
+    <div class="test-box">
+        <h2>Console Logs</h2>
+        <pre id="console-log"></pre>
+    </div>
+
+    <script>
+        const log = (message) => {
+            const logEl = document.getElementById('console-log');
+            const time = new Date().toLocaleTimeString();
+            logEl.textContent += `[${time}] ${message}\n`;
+            console.log(message);
+        };
+
+        async function testBackend() {
+            const resultEl = document.getElementById('backend-result');
+            resultEl.innerHTML = '<p>Testing...</p>';
+            log('Testing backend connection...');
+            
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                const data = await response.json();
+                resultEl.innerHTML = `
+                    <h3>✅ Backend Connected!</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+                log('✅ Backend is running');
+            } catch (error) {
+                resultEl.innerHTML = `
+                    <h3>❌ Backend Not Available</h3>
+                    <p>Error: ${error.message}</p>
+                    <p>Make sure backend is running on port 3000</p>
+                `;
+                log('❌ Backend connection failed: ' + error.message);
+            }
+        }
+
+        async function testHealth() {
+            const resultEl = document.getElementById('backend-result');
+            resultEl.innerHTML = '<p>Testing health endpoint...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/');
+                const data = await response.json();
+                resultEl.innerHTML = `
+                    <h3>✅ API Root Available!</h3>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+                log('✅ API root accessible');
+            } catch (error) {
+                resultEl.innerHTML = `
+                    <h3>❌ API Not Available</h3>
+                    <p>Error: ${error.message}</p>
+                `;
+                log('❌ API test failed: ' + error.message);
+            }
+        }
+
+        function testApp() {
+            const resultEl = document.getElementById('app-result');
+            resultEl.innerHTML = '<p>Testing app initialization...</p>';
+            log('Testing app initialization...');
+            
+            try {
+                if (typeof app !== 'undefined') {
+                    resultEl.innerHTML = `
+                        <h3>✅ App Initialized!</h3>
+                        <p>App object is available: ${typeof app}</p>
+                        <p>Current view: ${app.state?.currentView || 'unknown'}</p>
+                    `;
+                    log('✅ App is initialized');
+                } else {
+                    resultEl.innerHTML = `
+                        <h3>⚠️ App Not Found</h3>
+                        <p>App object not found. Check console for errors.</p>
+                        <p>Make sure app.js is loaded correctly.</p>
+                    `;
+                    log('⚠️ App object not found');
+                }
+            } catch (error) {
+                resultEl.innerHTML = `
+                    <h3>❌ App Error</h3>
+                    <p>Error: ${error.message}</p>
+                `;
+                log('❌ App test failed: ' + error.message);
+            }
+        }
+
+        // Auto-test on load
+        window.addEventListener('load', () => {
+            log('Page loaded');
+            setTimeout(() => {
+                testBackend();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

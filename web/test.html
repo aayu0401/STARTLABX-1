@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>STARTLABX Test</title>
+    <style>
+        body {
+            background: #0a0a0f;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 1rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        #result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎉 STARTLABX Test Page</h1>
+    <p>If you can see this, the server is working!</p>
+
+    <button onclick="testButton()">Click Me to Test</button>
+    <button onclick="location.href='index.html'">Go to Main App</button>
+
+    <div id="result"></div>
+
+    <script>
+        function testButton() {
+            document.getElementById('result').innerHTML = '✅ JavaScript is working! Buttons are functional!';
+        }
+
+        console.log('Test page loaded successfully!');
+    </script>
+</body>
+
+</html>
